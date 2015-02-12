@@ -1,5 +1,7 @@
 package edu.washington.mxl.quizdroid;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -20,7 +22,7 @@ public class Descr extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_descr);
+        // setContentView(R.layout.activity_descr);
 
         final Intent launchedMe = getIntent();
         final int id = launchedMe.getIntExtra("id", -1);
@@ -32,24 +34,25 @@ public class Descr extends ActionBarActivity {
         }
 
 
+
 //        Toast.makeText(this, launchedMe.getSerializableExtra("serialMap").toString(), Toast.LENGTH_SHORT).show();
 
-        Button button = (Button) findViewById(R.id.begin);
-        if (button != null) {
-            Log.i("Start button", "NOT NULL");
-
-            Toast.makeText(Descr.this, "NOT NULL", Toast.LENGTH_LONG).show();
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Log.i("Start button", "Entered ON Click");
-                    Toast.makeText(Descr.this, "got intent", Toast.LENGTH_LONG).show();
-                    Intent questions = new Intent(Descr.this, Questions.class);
-                    questions.putExtra("id", id);
-                    startActivity(questions);
-                }
-            });
-        }
+//        Button button = (Button) findViewById(R.id.begin);
+//        if (button != null) {
+//            Log.i("Start button", "NOT NULL");
+//
+//            Toast.makeText(Descr.this, "NOT NULL", Toast.LENGTH_LONG).show();
+//            button.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    Log.i("Start button", "Entered ON Click");
+//                    Toast.makeText(Descr.this, "got intent", Toast.LENGTH_LONG).show();
+//                    Intent questions = new Intent(Descr.this, Questions.class);
+//                    questions.putExtra("id", id);
+//                    startActivity(questions);
+//                }
+//            });
+//        }
     }
 
 

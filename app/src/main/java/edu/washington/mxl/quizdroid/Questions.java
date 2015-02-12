@@ -64,8 +64,6 @@ public class Questions extends ActionBarActivity {
 
         List<String> options = map.get(q);
 
-        int checkedID = -1;
-
         final RadioGroup rg = (RadioGroup) findViewById(R.id.rg);
         final Button submit = (Button) findViewById(R.id.submit);
         rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -74,7 +72,6 @@ public class Questions extends ActionBarActivity {
                 int checkedID = rg.getCheckedRadioButtonId();
                 if (checkedID != -1) {
                     submit.setEnabled(true);
-                    saveCheckedID(checkedID);
                 }
             }
         });
@@ -116,10 +113,6 @@ public class Questions extends ActionBarActivity {
                 }
             }
         }
-    }
-
-    public void saveCheckedID(int checkedID) {
-        check = checkedID;
     }
 
 

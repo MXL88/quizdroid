@@ -1,14 +1,20 @@
 package edu.washington.mxl.quizdroid;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.provider.ContactsContract;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -18,15 +24,16 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.zip.Inflater;
 
 
 public class MainActivity extends ActionBarActivity {
-    private List<HashMap<String, String>> topicID = new ArrayList<HashMap<String, String>>();
+    private static List<HashMap<String, String>> topicID = new ArrayList<HashMap<String, String>>();
     private static List<HashMap<String, List<String>>> listOfQA = new ArrayList<HashMap<String,List<String>>>();
     private int numOfTopic = 3;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         HashMap<String, String> temp = new HashMap<String, String>();
@@ -68,6 +75,8 @@ public class MainActivity extends ActionBarActivity {
         String[] from = { "topic" };
         int[] to = {R.id.topic};
 
+        setContentView(R.layout.activity_main);
+
 
         SimpleAdapter simpleAdpt = new SimpleAdapter(this, topicID, R.layout.topics_listview_layout, from, to);
         ListView listView = ( ListView ) findViewById(R.id.listView);
@@ -75,8 +84,8 @@ public class MainActivity extends ActionBarActivity {
         // React to user clicks on item
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parentAdapter, View view, int position, long id) {
-                Intent descr = new Intent(MainActivity.this, Descr.class);
-                //Log.i("id", "" + id);
+                Intent descr = new Intent(MainActivity.this, FragmentsHolder.class);
+                Log.i("id", "" + id);
                 descr.putExtra("id", (int)id);
                 descr.putExtra("descr", topicID.get((int) id).get("descr"));
 
@@ -116,4 +125,9 @@ public class MainActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
+
+
+
 }
