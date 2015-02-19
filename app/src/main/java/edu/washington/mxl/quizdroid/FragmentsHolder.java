@@ -30,6 +30,7 @@ public class FragmentsHolder extends ActionBarActivity {
     private static boolean correct;
     private static String ans;
     private static  String ansCorr;
+    private static QuizApp quizApp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +49,9 @@ public class FragmentsHolder extends ActionBarActivity {
                     .commit();
         }
 
-
+        quizApp = (QuizApp) getApplicationContext();
+        quizApp.setBase();
+        quizApp.setTopic(id);
     }
 
 
@@ -125,26 +128,28 @@ public class FragmentsHolder extends ActionBarActivity {
             String q = "";
             String corrAns = "";
 
-            if (id == 0) {
-                map = mapOfQuestions.getMath();
-                q = mapOfQuestions.getMathQ();
-                corrAns = mapOfQuestions.getMathA();
-            } else if (id == 1) {
-                map = mapOfQuestions.getPhysics();
-                q = mapOfQuestions.getPhysicsQ();
-                corrAns = mapOfQuestions.getPhysicsA();
-            } else if (id == 2) {
-                map = mapOfQuestions.getMarvel();
-                q = mapOfQuestions.getMarvelQ();
-                corrAns = mapOfQuestions.getMarvelA();
-            }
+//            if (id == 0) {
+//                map = mapOfQuestions.getMath();
+//                q = mapOfQuestions.getMathQ();
+//                corrAns = mapOfQuestions.getMathA();
+//            } else if (id == 1) {
+//                map = mapOfQuestions.getPhysics();
+//                q = mapOfQuestions.getPhysicsQ();
+//                corrAns = mapOfQuestions.getPhysicsA();
+//            } else if (id == 2) {
+//                map = mapOfQuestions.getMarvel();
+//                q = mapOfQuestions.getMarvelQ();
+//                corrAns = mapOfQuestions.getMarvelA();
+//            }
+            q = quizApp.getQ();
 
-            ans = map.get("correct").get(0);
+            ans = quizApp.getCorrAns() + "";
 
-            List<String> options = map.get(q);
+            List<String> options = quizApp.getA();
+
+            corrAns = quizApp.getCorrectAns();
 
             if (rg != null) {
-
                 rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -222,7 +227,7 @@ public class FragmentsHolder extends ActionBarActivity {
             TextView result = (TextView) rootView.findViewById(R.id.result);
             if (correct) {
                 result.setText("You got it right!");
-                mapOfQuestions.addScore();;
+                mapOfQuestions.addScore();
             } else {
                 result.setText("Correct answer is " + ansCorr);
             }
