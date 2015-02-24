@@ -1,15 +1,22 @@
 package edu.washington.mxl.quizdroid;
 
+import android.app.AlarmManager;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.SystemClock;
+import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +43,10 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        QuizApp quizApp = (QuizApp) getApplicationContext();
+        quizApp.setBase();
+
         HashMap<String, String> temp = new HashMap<String, String>();
         temp.put("topic", "Math");
         temp.put("descr", "We will only cover addition. 1 question total");
@@ -96,6 +107,32 @@ public class MainActivity extends ActionBarActivity {
         });
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == 1)
+        {
+            displayUserSettings();
+        }
+
+    }
+
+    private void displayUserSettings()
+    {
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        String  settings = "";
+
+        settings=settings+"Password: " + sharedPrefs.getString("prefUserPassword", "NOPASSWORD");
+
+        settings=settings+"\nRemind For Update:"+ sharedPrefs.getBoolean("prefLockScreen", false);
+
+        settings=settings+"\nUpdate Frequency: "
+                + sharedPrefs.getString("prefUpdateFrequency", "NOUPDATE");
+    }
+
 
     private void addTopic(String topic) {
         HashMap<String, String> temp = new HashMap<String, String>();
@@ -106,9 +143,10 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+        // Inflate the menu items for use in the action bar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_activity_actions, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -120,6 +158,8 @@ public class MainActivity extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent i = new Intent(getApplicationContext(), SettingActivities.class);
+            startActivityForResult(i, 1);
             return true;
         }
 

@@ -50,7 +50,6 @@ public class FragmentsHolder extends ActionBarActivity {
         }
 
         quizApp = (QuizApp) getApplicationContext();
-        quizApp.setBase();
         quizApp.setTopic(id);
     }
 

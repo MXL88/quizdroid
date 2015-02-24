@@ -12,5 +12,6 @@
     <string name="title_activity_fragment_container">FragmentContainer</string>
     <string name="title_activity_fragments_placeholder">FragmentsPlaceholder</string>
     <string name="title_activity_fragments_holder">FragmentsHolder</string>
+    <string name="title_activity_setting_activities">SettingActivities</string>
 
 </resources>
