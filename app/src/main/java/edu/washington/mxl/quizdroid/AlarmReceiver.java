@@ -13,11 +13,14 @@ public class AlarmReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
 
         Log.i("onReceive", "ENTERED");
-        String message = intent.getStringExtra("message");
-        // For our recurring task, we'll just display a message
+        Log.i("onReceive", "bundle: " + intent.getExtras().toString());
+
+        String message = intent.getStringExtra("mess");
         if (message != null) {
-            Log.i("onReceive", message);
+            Log.i("onReceive", "mess: " + message);
             Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+        } else {
+            Log.i("onReceive", "mess: " + message);
         }
     }
 }

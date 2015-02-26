@@ -39,6 +39,10 @@ public class MainActivity extends ActionBarActivity {
     private static List<HashMap<String, List<String>>> listOfQA = new ArrayList<HashMap<String,List<String>>>();
     private int numOfTopic = 3;
 
+    private Intent alIntent;
+    private PendingIntent pendingIntent;
+    private AlarmManager mgr;
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +50,18 @@ public class MainActivity extends ActionBarActivity {
 
         QuizApp quizApp = (QuizApp) getApplicationContext();
         quizApp.setBase();
+
+        mgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String mess = prefs.getString("prefUrl", "heeey")  + " " +
+                prefs.getString("prefFrequency", "let's get freqqy");
+        Log.i("Prefs", "mess: " + mess);
+
+        alIntent = new Intent(getApplicationContext(), AlarmReceiver.class);
+        alIntent.putExtra("mess", mess);
+        pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, alIntent, 0);
+        mgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                SystemClock.elapsedRealtime() + 3000, 60000, pendingIntent);
 
         HashMap<String, String> temp = new HashMap<String, String>();
         temp.put("topic", "Math");
@@ -101,8 +117,7 @@ public class MainActivity extends ActionBarActivity {
                 descr.putExtra("descr", topicID.get((int) id).get("descr"));
 
                 startActivity(descr);
-
-//                Toast.makeText(MainActivity.this, "Item with id [" + id + "]" + " " + topicID.get((int)id).get("descr"), Toast.LENGTH_SHORT).show();
+//              Toast.makeText(MainActivity.this, "Item with id [" + id + "]" + " " + topicID.get((int)id).get("descr"), Toast.LENGTH_SHORT).show();
             }
         });
     }

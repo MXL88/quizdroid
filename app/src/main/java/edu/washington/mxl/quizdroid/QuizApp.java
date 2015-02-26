@@ -25,6 +25,7 @@ public class QuizApp extends Application implements TopicRepository {
     private int currTopic;
     private Topic topic;
 
+
     public QuizApp() {
         if (instance == null) {
             instance = this;
@@ -36,29 +37,8 @@ public class QuizApp extends Application implements TopicRepository {
     @Override
     public void onCreate() {
         Log.i("QuizApp", "An instance of QuizApp has been created");
-        AlarmManager mgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        final Intent alIntent = new Intent(getApplicationContext(), AlarmReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, alIntent, 0);
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-
-        final String freq;
-
-        SharedPreferences.OnSharedPreferenceChangeListener listener =
-                new SharedPreferences.OnSharedPreferenceChangeListener() {
-                    public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
-                        // listener implementation
-                        String mess = prefs.getString("prefUrl", "heeey")  + " " +
-                                    prefs.getInt("prefFrequency", 1);
-                        alIntent.putExtra("message", mess);
-                    }
-                };
-        pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, alIntent, 0);
-        mgr.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                SystemClock.elapsedRealtime() + 3000, prefs.getInt("prefFrequency", 1) * 60000, pendingIntent);
-        prefs.registerOnSharedPreferenceChangeListener(listener);
     }
-
 
     public QuizApp getInstance() {
         return instance;
